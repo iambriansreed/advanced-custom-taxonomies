@@ -68,7 +68,6 @@ namespace Advanced_Custom_Taxonomies\Admin {
 
 			$this->add_filters( array(
 				'post_updated_messages',
-				'dashboard_glance_items',
 				array( 'post_row_actions', 10, 2 ),
 				'enter_title_here'
 			) );
@@ -289,49 +288,6 @@ register_post_type( '{$post_data['post_type']}', {$args});
 			}
 
 			return $actions;
-		}
-
-		/**
-		 * @param $items
-		 *
-		 * @return mixed
-		 */
-		public function dashboard_glance_items( $items ) {
-
-			foreach ( $this->loader->get_taxonomies() as $post_data ) {
-
-				if ( $post_data['args']['public'] ) {
-
-					$num_posts = wp_count_posts( $post_data['post_type'] );
-
-					$published = intval( $num_posts->publish );
-
-					$text = _n( '%s ' . $post_data['args']['singular_name'], '%s ' .
-					                                                         $post_data['args']['plural_name'], $published );
-
-					$text = sprintf( $text, number_format_i18n( $published ) );
-
-					$can_view = current_user_can( $this->settings->get( 'capability' ) );
-
-					echo '<li class="post-count ' . $post_data['post_type'] . '-count">';
-
-					if ( $can_view ) {
-						echo '<a href="edit.php?post_type=' . $post_data['post_type'] . '">';
-					}
-
-					echo $text;
-
-					if ( $can_view ) {
-						echo '</a>';
-					}
-
-					echo '</li>';
-				}
-
-				//$items[] = $output;
-			}
-
-			return $items;
 		}
 
 		/**
