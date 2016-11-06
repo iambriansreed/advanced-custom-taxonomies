@@ -10,7 +10,7 @@ Customise WordPress with powerful, professional and intuitive taxonomies.
 
 == Description ==
 
-Advanced Custom Taxonomies is the perfect solution for any WordPress website which needs more content types like other Content Management Systems. No additional plugins required!
+Advanced Custom Taxonomies is the perfect solution for any WordPress website which needs custom taxonomies.
 
 == Filters ==
 
