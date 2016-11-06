@@ -56,31 +56,31 @@ class Meta_Boxes {
 		wp_deregister_script( 'select2' );
 
 		wp_enqueue_script(
-			'advanced_custom_post_types_select2',
+			'advanced_custom_taxonomies_select2',
 			$this->plugin_dir_url . 'assets/select2.min.js',
 			array( 'jquery' )
 		);
 
 		wp_enqueue_script(
-			'advanced_custom_post_types_pluralize',
+			'advanced_custom_taxonomies_pluralize',
 			$this->plugin_dir_url . 'assets/pluralize.js'
 		);
 
 		wp_enqueue_script(
-			'advanced_custom_post_types',
+			'advanced_custom_taxonomies',
 			$this->plugin_dir_url . 'assets/script.js',
-			array( 'jquery', 'advanced_custom_post_types_select2', 'advanced_custom_post_types_pluralize' )
+			array( 'jquery', 'advanced_custom_taxonomies_select2', 'advanced_custom_taxonomies_pluralize' )
 		);
 
 		wp_enqueue_style(
-			'advanced_custom_post_types_select2',
+			'advanced_custom_taxonomies_select2',
 			$this->plugin_dir_url . 'assets/select2.min.css'
 		);
 
 		wp_enqueue_style(
-			'advanced_custom_post_types',
+			'advanced_custom_taxonomies',
 			$this->plugin_dir_url . 'assets/style.css',
-			array( 'advanced_custom_post_types_select2' )
+			array( 'advanced_custom_taxonomies_select2' )
 		);
 	}
 

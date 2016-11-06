@@ -63,7 +63,7 @@ namespace Advanced_Custom_Taxonomies\Admin {
 				'save_post',
 				'add_meta_boxes',
 				'admin_menu',
-				'wp_ajax_advanced_custom_post_types'
+				'wp_ajax_advanced_custom_taxonomies'
 			) );
 
 			$this->add_filters( array(
@@ -217,9 +217,9 @@ namespace Advanced_Custom_Taxonomies\Admin {
 			}
 		}
 
-		public function wp_ajax_advanced_custom_post_types() {
+		public function wp_ajax_advanced_custom_taxonomies() {
 
-			if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'advanced_custom_post_types' ) ) {
+			if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'advanced_custom_taxonomies' ) ) {
 				exit( "No naughty business please" );
 			}
 
@@ -234,11 +234,18 @@ namespace Advanced_Custom_Taxonomies\Admin {
 
 			$export_post = get_post( $post_id );
 
-			$post_data = json_decode( $export_post->post_content, true );
+			$taxonomy_data = json_decode( $export_post->post_content, true );
 
-			$args = var_export( $post_data['args'], 1 );
+			$post_types = $taxonomy_data['args']['post_types'];
 
-			$function_name = "init_register_post_type_{$post_data['post_type']}";
+			$args_export = var_export( $taxonomy_data['args'], 1 );
+
+			$post_types_export =
+				is_array( $post_types ) ?
+					"array ( '" . implode( "','", $post_types ) . "' )" :
+					'array ()';
+
+			$function_name = "init_register_taxonomy_{$taxonomy_data['taxonomy']}";
 
 			echo "/* Exported from Advanced_Custom_Taxonomies */
 			
@@ -246,7 +253,7 @@ add_action( 'init', '$function_name' );
 
 function $function_name(){
 
-register_post_type( '{$post_data['post_type']}', {$args});
+register_post_type( '{$taxonomy_data['taxonomy']}', $post_types_export, $args_export);
 
 }";
 			exit;
@@ -281,8 +288,8 @@ register_post_type( '{$post_data['post_type']}', {$args});
 
 			if ( $post->post_type === ACTAX_POST_TYPE ) {
 
-				$nonce = wp_create_nonce( 'advanced_custom_post_types' );
-				$url   = admin_url( "admin-ajax.php?action=advanced_custom_post_types&nonce=$nonce&export={$post->ID}" );
+				$nonce = wp_create_nonce( 'advanced_custom_taxonomies' );
+				$url   = admin_url( "admin-ajax.php?action=advanced_custom_taxonomies&nonce=$nonce&export={$post->ID}" );
 
 				$actions['export_php'] = "<a href=\"$url\" target=\"_blank\">Export</a>";
 			}
